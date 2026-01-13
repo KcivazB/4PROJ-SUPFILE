@@ -22,7 +22,7 @@ jobs:
             exit 0
           fi
 
-          if [[ ! "$BRANCH_NAME" =~ ^(feat|fix|refactor|chore|test|docs|hotfix)\((frontend|backend|mobile|ci|shared)\)/ ]]; then
+          if [[ ! "$BRANCH_NAME" =~ ^(feat|fix|refactor|chore|test|docs|hotfix)\((frontend|backend|mobile|ci|infra|shared)\)/ ]]; then
             echo "❌ Invalid branch name: $BRANCH_NAME"
             echo "Expected format: type(scope)/description"
             echo "Examples:"

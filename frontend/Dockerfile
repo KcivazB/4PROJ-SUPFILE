@@ -3,9 +3,7 @@ FROM node:24
 
 WORKDIR /app
 
-# Installer create-react-app globalement
-RUN npm install -g create-react-app
-
+RUN npm install 
 WORKDIR /app/frontend
 
 # Copy the whole frontend code
