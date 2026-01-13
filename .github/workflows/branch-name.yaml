@@ -1,0 +1,34 @@
+name: Branch name check
+
+on:
+  pull_request:
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check branch name
+        run: |
+          BRANCH_NAME="${GITHUB_HEAD_REF}"
+
+          if [[ "$BRANCH_NAME" =~ ^(main|develop)$ ]]; then
+            echo "Skipping branch name check for $BRANCH_NAME"
+            exit 0
+          fi
+
+          if [[ "$BRANCH_NAME" =~ ^dependabot/ ]]; then
+            echo "Skipping branch name check for Dependabot"
+            exit 0
+          fi
+
+          if [[ ! "$BRANCH_NAME" =~ ^(feat|fix|refactor|chore|test|docs|hotfix)\((frontend|backend|mobile|ci|shared)\)/ ]]; then
+            echo "❌ Invalid branch name: $BRANCH_NAME"
+            echo "Expected format: type(scope)/description"
+            echo "Examples:"
+            echo "- feat(frontend)/login"
+            echo "- fix(backend)/jwt-expiration"
+            exit 1
+          fi
+
+          echo "✅ Branch name is valid: $BRANCH_NAME"

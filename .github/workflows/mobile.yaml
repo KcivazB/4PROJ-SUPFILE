@@ -12,28 +12,26 @@ jobs:
   mobile:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: mobile
-
     steps:
+      # 1️⃣ Checkout
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: npm
-          cache-dependency-path: mobile/package-lock.json
+      # 2️⃣ Build Docker image
+      - name: Build mobile Docker image
+        run: docker build -t mobile-dev ./mobile
 
+      # 3️⃣ Install dependencies
       - name: Install dependencies
-        run: npm ci
+        run: docker run --rm -v ${{ github.workspace }}/mobile:/app mobile-dev npm ci
 
+      # 4️⃣ Lint
       - name: Lint
-        run: npm run lint
+        run: docker run --rm -v ${{ github.workspace }}/mobile:/app mobile-dev npm run lint
 
+      # 5️⃣ Tests
       - name: Tests
-        run: npm test
+        run: docker run --rm -v ${{ github.workspace }}/mobile:/app mobile-dev npm test
 
+      # 6️⃣ Expo Doctor
       - name: Expo Doctor
-        run: npx expo doctor
+        run: docker run --rm -v ${{ github.workspace }}/mobile:/app mobile-dev npx expo doctor
