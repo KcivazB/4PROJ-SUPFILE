@@ -1,10 +1,15 @@
 FROM node:24
 
 WORKDIR /app
-COPY mobile/package*.json ./
-RUN npm install
 
-COPY frontend/. ./
+# Copy only the package.json
+COPY package*.json ./
 
-EXPOSE 3000
-CMD ["npm", "start"]
+# Install dependencies
+RUN npm install -g expo-cli && npm install
+
+# Copy the whole mobile code
+COPY . .
+
+EXPOSE 19000
+CMD ["expo", "start", "--tunnel"]

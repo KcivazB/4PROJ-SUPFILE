@@ -1,10 +1,15 @@
 FROM node:24
 
 WORKDIR /app
-COPY frontend/package*.json ./
-RUN npm install
 
-COPY frontend/. ./
+# Copy only the package.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install -g expo-cli && npm install
+
+# Copy the whole frontend code
+COPY . .
 
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["expo", "start", "--tunnel"]

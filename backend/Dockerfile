@@ -1,7 +1,7 @@
 # Base PHP 8.2 FPM
 FROM php:8.2-fpm
 
-# Installer dépendances système utiles pour Symfony
+# Install system dependencies useful for Symfony
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
@@ -11,10 +11,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install intl mbstring pdo_mysql zip \
     && docker-php-ext-enable intl mbstring pdo_mysql zip
 
-# Extensions requises par Symfony qui sont déjà installées par défaut
+# Symfony required extensions that are already installed by default
 # Ctype, iconv, PCRE, Session, SimpleXML, Tokenizer
 
-# Installer Composer
+# Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
