@@ -1,15 +1,17 @@
+# Base Node
 FROM node:24
 
 WORKDIR /app
 
-# Copy only the package.json
-COPY package*.json ./
+# Installer create-react-app globalement
+RUN npm install -g create-react-app
 
-# Install dependencies
-RUN npm install -g expo-cli && npm install
+WORKDIR /app/frontend
 
 # Copy the whole frontend code
 COPY . .
 
 EXPOSE 3000
-CMD ["expo", "start", "--tunnel"]
+
+# Commande pour lancer le dev server
+CMD ["npm", "start"]
