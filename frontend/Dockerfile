@@ -1,15 +1,15 @@
-# Base Node
 FROM node:24
 
 WORKDIR /app
 
-RUN npm install 
-WORKDIR /app/frontend
+# Copier uniquement les fichiers nécessaires au cache
+COPY package*.json ./
 
-# Copy the whole frontend code
+RUN npm install
+
+# Copier le reste du frontend
 COPY . .
 
 EXPOSE 3000
 
-# Commande pour lancer le dev server
 CMD ["npm", "start"]

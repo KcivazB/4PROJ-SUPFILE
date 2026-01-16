@@ -1,20 +1,23 @@
-# Base PHP 8.2 FPM
-FROM php:8.2-fpm
+# =====================
+# Base PHP
+# =====================
+FROM php:8.4-fpm
 
-# Install system dependencies useful for Symfony
+# Installer les dépendances système nécessaires à Symfony
 RUN apt-get update && apt-get install -y \
-    git \
-    unzip \
-    libicu-dev \
-    libonig-dev \
-    libzip-dev \
+    git unzip libicu-dev libonig-dev libzip-dev \
     && docker-php-ext-install intl mbstring pdo_mysql zip \
-    && docker-php-ext-enable intl mbstring pdo_mysql zip
+    && rm -rf /var/lib/apt/lists/*
 
-# Symfony required extensions that are already installed by default
-# Ctype, iconv, PCRE, Session, SimpleXML, Tokenizer
-
-# Install Composer
+# Installer Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
+
+# =====================
+# Commande de démarrage
+# =====================
+CMD [ "sh", "-c", "\
+  echo 'Démarrage du serveur PHP…' && \
+  php -S 0.0.0.0:8000 -t public \
+"]
