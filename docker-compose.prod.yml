@@ -1,27 +1,17 @@
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
     container_name: backend-prod
     ports:
       - "8000:8000"
-    volumes:
-      - ./backend:/app
 
   frontend:
     build: ./frontend
-    container_name: frontend-prod
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
+      - "3000:80"
 
-  mobile:
-    build: ./mobile
-    container_name: mobile-prod
-    ports:
-      - "19000:19000"
-    volumes:
-      - ./mobile:/app
+  # PAS DE MOBILE EN PROD
 
   grafana:
     image: grafana/grafana:latest
