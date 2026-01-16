@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\NodePermissionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Enum\NodePermissionLevel;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: NodePermissionRepository::class)]
+#[ApiResource]
 class NodePermission
 {
     #[ORM\Id]

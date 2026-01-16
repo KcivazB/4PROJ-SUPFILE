@@ -8,8 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Enum\NodeType;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: NodeRepository::class)]
+#[ApiResource]
 class Node
 {
     #[ORM\Id]
@@ -56,7 +58,7 @@ class Node
 
     #[ORM\ManyToOne(inversedBy: 'nodes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $owner = null;
+    private ?User $owner = null;
 
     /**
      * @var Collection<int, Link>
@@ -220,12 +222,12 @@ class Node
         return $this;
     }
 
-    public function getOwner(): ?user
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(?user $owner): static
+    public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
 

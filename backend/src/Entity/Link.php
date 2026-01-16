@@ -7,8 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Enum\LinkPermissionLevel;
+use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: LinkRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['link:read']],
+    denormalizationContext: ['groups' => ['link:write']]
+)]
 class Link
 {
     #[ORM\Id]
@@ -18,6 +24,7 @@ class Link
 
     #[ORM\ManyToOne(inversedBy: 'links')]
     #[ORM\JoinColumn(nullable: false, onDelete: "CASCADE")]
+    #[Groups(['link:read', 'link:write'])]
     private ?Node $node = null;
 
     #[ORM\Column(length: 64, unique:true)]
@@ -40,6 +47,7 @@ class Link
 
     #[ORM\ManyToOne(inversedBy: 'links')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['link:read', 'link:write'])]
     private ?User $creator = null;
 
     #[ORM\Column(type: "string", enumType: LinkPermissionLevel::class)]
