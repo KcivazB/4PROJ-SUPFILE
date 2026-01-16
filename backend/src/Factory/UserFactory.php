@@ -33,12 +33,17 @@ final class UserFactory extends PersistentObjectFactory
     #[\Override]
     protected function defaults(): array|callable
     {
+        $firstname = self::faker()->firstName();
+        $lastname = self::faker()->lastName();
+
+        $email = strtolower($firstname . '.' . $lastname . '@example.com');
+
         return [
             'created_at' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
-            'email' => self::faker()->text(180),
-            'firstname' => self::faker()->text(255),
-            'lastname' => self::faker()->text(255),
-            'password' => self::faker()->text(),
+            'email' => $email,
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'password' => "password",
             'roles' => [],
         ];
     }
